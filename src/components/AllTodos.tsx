@@ -1,10 +1,17 @@
-import { Edit, Save, Trash2, CheckCircle2, Circle } from "lucide-react";
+import { Edit, Save, Trash2, CheckCircle2, Circle, Info } from "lucide-react";
 import { useTodo, type Todo } from "../contexts/TodoContext";
 import { useState } from "react";
 import TodosSkeleton from "./loaders/Skeleton";
 
 const AllTodos = () => {
-  const { todos, deleteTodo, handleChecks, handleEdit, isLoading } = useTodo();
+  const {
+    todos,
+    deleteTodo,
+    handleChecks,
+    handleEdit,
+    isLoading,
+    handlePopUp,
+  } = useTodo();
   const [selectEdit, setSelectEdit] = useState<string | null>(null);
   const [editTodo, setEditTodo] = useState<string>("");
 
@@ -22,15 +29,16 @@ const AllTodos = () => {
 
   return (
     <div className="w-full max-w-2xl mx-auto px-4 pb-6">
-
       {/* Stats bar */}
       {todos.length > 0 && (
         <div className="flex items-center justify-between mb-4 px-1">
           <span className="text-slate-400 text-sm">
-            <span className="text-white font-semibold">{todos.length}</span> tasks
+            <span className="text-white font-semibold">{todos.length}</span>{" "}
+            tasks
           </span>
           <span className="text-slate-400 text-sm">
-            <span className="text-emerald-400 font-semibold">{doneCount}</span> completed
+            <span className="text-emerald-400 font-semibold">{doneCount}</span>{" "}
+            completed
           </span>
         </div>
       )}
@@ -39,7 +47,7 @@ const AllTodos = () => {
       {todos.length > 0 && (
         <div className="w-full h-1 bg-slate-700/50 rounded-full mb-5 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-indigo-500 to-emerald-400 rounded-full transition-all duration-500"
+            className="h-full bg-linear-to-r from-indigo-500 to-emerald-400 rounded-full transition-all duration-500"
             style={{ width: `${(doneCount / todos.length) * 100}%` }}
           />
         </div>
@@ -54,9 +62,10 @@ const AllTodos = () => {
             <div
               key={t._id}
               className={`group flex items-center gap-4 bg-slate-800/50 border rounded-xl px-4 py-3 transition-all duration-200
-                ${t.isDone
-                  ? "border-slate-700/30 opacity-60"
-                  : "border-slate-700/50 hover:border-indigo-500/40 hover:bg-slate-800/80"
+                ${
+                  t.isDone
+                    ? "border-slate-700/30 opacity-60"
+                    : "border-slate-700/50 hover:border-indigo-500/40 hover:bg-slate-800/80"
                 }
                 ${selectEdit === t._id ? "border-indigo-500/60 bg-slate-800/90" : ""}
               `}
@@ -66,10 +75,11 @@ const AllTodos = () => {
                 onClick={() => handleChecks(t._id, t.isDone)}
                 className="shrink-0 text-slate-500 hover:text-emerald-400 transition-colors duration-200"
               >
-                {t.isDone
-                  ? <CheckCircle2 size={20} className="text-emerald-400" />
-                  : <Circle size={20} />
-                }
+                {t.isDone ? (
+                  <CheckCircle2 size={20} className="text-emerald-400" />
+                ) : (
+                  <Circle size={20} />
+                )}
               </button>
 
               {/* Title + date */}
@@ -87,25 +97,36 @@ const AllTodos = () => {
                 <p className="text-xs text-slate-600 mt-1">
                   {t.createdAt === t.updatedAt
                     ? `Created ${new Date(t.createdAt).toLocaleString()}`
-                    : `Updated ${new Date(t.updatedAt).toLocaleString()}`
-                  }
+                    : `Updated ${new Date(t.updatedAt).toLocaleString()}`}
                 </p>
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="flex items-center gap-1 shrink-0 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <button
+                  onClick={() => handlePopUp(t)}
+                  className="p-2 rounded-lg text-slate-500 hover:text-info hover:bg-info/10 transition-all duration-200"
+                >
+                  <Info size={16} />
+                </button>
                 <button
                   onClick={() => handleEditChange(t)}
                   disabled={t.isDone}
                   className={`p-2 rounded-lg transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed
-                    ${selectEdit === t._id
-                      ? "bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30"
-                      : "text-slate-500 hover:text-indigo-400 hover:bg-slate-700/50"
+                    ${
+                      selectEdit === t._id
+                        ? "bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30"
+                        : "text-slate-500 hover:text-indigo-400 hover:bg-slate-700/50"
                     }
                   `}
                 >
-                  {selectEdit === t._id ? <Save size={16} /> : <Edit size={16} />}
+                  {selectEdit === t._id ? (
+                    <Save size={16} />
+                  ) : (
+                    <Edit size={16} />
+                  )}
                 </button>
+
                 <button
                   onClick={() => deleteTodo(t._id)}
                   className="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
@@ -122,8 +143,6 @@ const AllTodos = () => {
           </div>
         )}
       </div>
-
-     
     </div>
   );
 };

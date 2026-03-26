@@ -16,6 +16,10 @@ interface TodoContextType {
   handleChecks: (id: string, currentIsDone: boolean) => Promise<void>;
   handleEdit: (id: string, title: string) => Promise<void>;
   isLoading: boolean;
+  handlePopUp: (todoInput: { _id: string; title: string }) => void;
+  openInfoPopup: boolean;
+  infoPopup: string | null;
+  setOpneInfoPopup: (value: boolean) => void;
 }
 
 const TodoContextAPI = createContext<TodoContextType | null>(null);
@@ -26,11 +30,13 @@ export const useTodo = () => {
   return context;
 };
 
+// ?Funtion here
 const TodoContext = ({ children }: { children: ReactNode }) => {
   const baseURL = import.meta.env.VITE_API_URL;
   const [todos, setTodo] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [openInfoPopup, setOpneInfoPopup] = useState<boolean>(false);
+  const [infoPopup, setInfoPopup] = useState<string | null>(null);
   const fetchTodo = async () => {
     try {
       setIsLoading(true);
@@ -108,6 +114,13 @@ const TodoContext = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const handlePopUp = (todoInput: { _id: string; title: string }) => {
+    const { title } = todoInput;
+    if (!title) return;
+    setInfoPopup(title);
+    setOpneInfoPopup(true);
+  };
+
   const value = {
     todos,
     addTodo,
@@ -115,6 +128,10 @@ const TodoContext = ({ children }: { children: ReactNode }) => {
     handleChecks,
     handleEdit,
     isLoading,
+    handlePopUp,
+    infoPopup,
+    openInfoPopup,
+    setOpneInfoPopup,
   };
 
   return (
