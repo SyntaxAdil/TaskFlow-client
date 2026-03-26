@@ -1,4 +1,4 @@
-import { X, Info } from "lucide-react";
+import { X, Info, CheckCircle2, Clock, RefreshCw } from "lucide-react";
 import { useTodo } from "../../contexts/TodoContext";
 
 const TodoInfoPopup = () => {
@@ -36,7 +36,7 @@ const TodoInfoPopup = () => {
                     <Info size={16} />
                   </div>
                   <span className="text-xs font-semibold tracking-widest uppercase text-indigo-300">
-                    Info
+                    Task Details
                   </span>
                 </div>
                 <button
@@ -50,13 +50,62 @@ const TodoInfoPopup = () => {
               {/* Divider */}
               <div className="h-px bg-white/10 mb-5" />
 
-              {/* Content */}
-              <p className="text-white/90 text-sm leading-relaxed wrap-break-word ">{infoPopup}</p>
+              {/* Content rows */}
+              <div className="flex flex-col gap-3">
+
+                {/* Title */}
+                <div className="flex items-start gap-3 bg-white/5 rounded-2xl px-4 py-3  ">
+                  <CheckCircle2
+                    size={16}
+                    className={`mt-0.5 shrink-0 ${infoPopup?.isDone ? "text-emerald-400" : "text-slate-500"}`}
+                  />
+                  <div className=" overflow-hidden" >
+                    <p className="text-xs text-white/40 mb-1">Title</p>
+                    <p className="text-white/90 text-sm leading-relaxed wrap-break-word">
+                      {infoPopup?.title}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Status */}
+                <div className="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3">
+                  <CheckCircle2 size={16} className="shrink-0 text-indigo-400" />
+                  <div>
+                    <p className="text-xs text-white/40 mb-1">Status</p>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${infoPopup?.isDone ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400"}`}>
+                      {infoPopup?.isDone ? "Completed" : "Pending"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Created At */}
+                <div className="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3">
+                  <Clock size={16} className="shrink-0 text-indigo-400" />
+                  <div>
+                    <p className="text-xs text-white/40 mb-1">Created At</p>
+                    <p className="text-white/90 text-sm">
+                      {new Date(infoPopup?.createdAt ?? "").toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Updated At */}
+                <div className="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3">
+                  <RefreshCw size={16} className="shrink-0 text-indigo-400" />
+                  <div>
+                    <p className="text-xs text-white/40 mb-1">Updated At</p>
+                    <p className="text-white/90 text-sm">
+                      {new Date(infoPopup?.updatedAt ?? "").toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+
+              </div>
 
               {/* Button */}
               <button
                 onClick={() => setOpneInfoPopup(false)}
-                className="mt-6 w-full py-2.5 rounded-2xl text-sm font-semibold text-white transition-all duration-200 active:scale-95 "
+                className="mt-6 w-full py-2.5 rounded-2xl text-sm font-semibold text-white transition-all duration-200 active:scale-95"
                 style={{
                   background: "linear-gradient(135deg, rgba(99,102,241,0.8), rgba(139,92,246,0.8))",
                   border: "1px solid rgba(99,102,241,0.4)",

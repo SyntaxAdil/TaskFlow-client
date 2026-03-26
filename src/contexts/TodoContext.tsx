@@ -16,9 +16,9 @@ interface TodoContextType {
   handleChecks: (id: string, currentIsDone: boolean) => Promise<void>;
   handleEdit: (id: string, title: string) => Promise<void>;
   isLoading: boolean;
-  handlePopUp: (todoInput: { _id: string; title: string }) => void;
+  handlePopUp: (todoInput:Todo) => void;
   openInfoPopup: boolean;
-  infoPopup: string | null;
+  infoPopup: Todo | null
   setOpneInfoPopup: (value: boolean) => void;
 }
 
@@ -36,7 +36,7 @@ const TodoContext = ({ children }: { children: ReactNode }) => {
   const [todos, setTodo] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [openInfoPopup, setOpneInfoPopup] = useState<boolean>(false);
-  const [infoPopup, setInfoPopup] = useState<string | null>(null);
+  const [infoPopup, setInfoPopup] = useState<Todo | null>(null);
   const fetchTodo = async () => {
     try {
       setIsLoading(true);
@@ -114,10 +114,10 @@ const TodoContext = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handlePopUp = (todoInput: { _id: string; title: string }) => {
-    const { title } = todoInput;
-    if (!title) return;
-    setInfoPopup(title);
+  const handlePopUp = (todoInput:Todo) => {
+    
+    if (!todoInput) return;
+    setInfoPopup(todoInput);
     setOpneInfoPopup(true);
   };
 
