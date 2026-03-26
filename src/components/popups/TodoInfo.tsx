@@ -51,12 +51,12 @@ const TodoInfoPopup = () => {
               <div className="h-px bg-white/10 mb-5" />
 
               {/* Content */}
-              <p className="text-white/90 text-sm leading-relaxed">{infoPopup}</p>
+              <p className="text-white/90 text-sm leading-relaxed wrap-break-word ">{infoPopup}</p>
 
               {/* Button */}
               <button
                 onClick={() => setOpneInfoPopup(false)}
-                className="mt-6 w-full py-2.5 rounded-2xl text-sm font-semibold text-white transition-all duration-200 active:scale-95"
+                className="mt-6 w-full py-2.5 rounded-2xl text-sm font-semibold text-white transition-all duration-200 active:scale-95 "
                 style={{
                   background: "linear-gradient(135deg, rgba(99,102,241,0.8), rgba(139,92,246,0.8))",
                   border: "1px solid rgba(99,102,241,0.4)",

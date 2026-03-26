@@ -86,7 +86,7 @@ const AllTodos = () => {
               <div className="flex-1 min-w-0">
                 <input
                   type="text"
-                  className={`w-full bg-transparent text-base outline-none transition-all duration-200
+                  className={`w-full truncate bg-transparent text-base outline-none transition-all duration-200
                     ${t.isDone ? "line-through text-slate-500" : "text-white"}
                     ${selectEdit === t._id ? "border-b border-indigo-400 pb-0.5" : "border-b border-transparent"}
                   `}
